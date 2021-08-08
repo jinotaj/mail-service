@@ -1,0 +1,7 @@
+micronaut:
+  application:
+    name: mail-service
+mail-service:
+  repositories:
+    default:
+      directory: sample
