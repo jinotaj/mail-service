@@ -1,0 +1,6 @@
+applicationType: default
+defaultPackage: org.jinotaj.service.mail
+testFramework: junit
+sourceLanguage: java
+buildTool: gradle
+features: [annotation-api, app-name, graalvm, gradle, http-client, java, java-application, junit, logback, management, netty-server, properties, reactor, readme, shade]
