@@ -26,9 +26,11 @@ public class RepositoryService {
 
   private final RepositoryConfig config;
   private final Map<String, Source> sources = new HashMap<>();
+  private final FileService fileService;
 
   public RepositoryService(RepositoryConfig config) {
     this.config = config;
+    this.fileService = new FileService(config.getDirectory());
   }
 
   @PostConstruct
@@ -38,6 +40,10 @@ public class RepositoryService {
 
   public Source getSource(String path) {
     return sources.get(path);
+  }
+
+  public FileService getFileService() {
+    return this.fileService;
   }
 
   private void processFile(Path file) {

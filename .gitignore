@@ -4,6 +4,8 @@ Thumbs.db
 build/
 target/
 out/
+config/
+sample/
 .idea
 *.iml
 *.ipr

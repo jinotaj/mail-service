@@ -9,5 +9,9 @@ import org.graalvm.polyglot.Value;
 public interface ScriptService {
   Value script(String path);
 
+  Value executeSendMail(String path, String data);
+
   Context context();
+
+  Value parseJSON(String data);
 }

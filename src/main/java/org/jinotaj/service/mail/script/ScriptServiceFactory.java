@@ -4,6 +4,7 @@ import io.micronaut.context.annotation.Bean;
 import io.micronaut.context.annotation.Factory;
 import org.graalvm.polyglot.Context;
 import org.graalvm.polyglot.Engine;
+import org.graalvm.polyglot.Value;
 import org.jinotaj.service.mail.repository.RepositoryService;
 
 import javax.inject.Singleton;
@@ -29,6 +30,9 @@ public class ScriptServiceFactory {
   @Bean
   public ScriptService scriptService() {
     Context context = contextBuilder.build();
+    Value bindings = context.getBindings("js");
+    bindings.putMember("File", repositoryService.getFileService());
+    bindings.putMember("HTTP", "");
     return new ScriptServiceImpl(context, repositoryService);
   }
 }

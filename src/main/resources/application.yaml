@@ -1,7 +1,10 @@
 micronaut:
   application:
     name: mail-service
+  http:
+    services:
+      sendgrid:
+        url: https://api.sendgrid.com/v3/
 mail-service:
   repositories:
     default:
-      directory: sample

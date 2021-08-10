@@ -1,10 +1,13 @@
 package org.jinotaj.service.mail.controller;
 
+import io.micronaut.http.annotation.Body;
 import io.micronaut.http.annotation.Controller;
-import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.PathVariable;
-import org.graalvm.polyglot.Context;
+import io.micronaut.http.annotation.Post;
 import org.graalvm.polyglot.Value;
+import org.jinotaj.service.mail.mail.MailAddress;
+import org.jinotaj.service.mail.mail.Message;
+import org.jinotaj.service.mail.mail.sendgrid.SendGridService;
 import org.jinotaj.service.mail.script.ScriptService;
 
 /**
@@ -12,38 +15,40 @@ import org.jinotaj.service.mail.script.ScriptService;
  */
 @Controller
 public class MailController {
-  private final ScriptService service;
+  private final ScriptService scriptService;
+  private final SendGridService sendGridService;
 
-  public MailController(ScriptService service) {
-    this.service = service;
+  public MailController(ScriptService scriptService, SendGridService sendGridService) {
+    this.scriptService = scriptService;
+    this.sendGridService = sendGridService;
   }
 
-  @Get("/{+path}")
-  public void index(@PathVariable String path) {
-    Value script = service.script(path);
-    if (script == null) {
-      return;
+  @Post("/{+path}")
+  public void index(@PathVariable String path, @Body String body) {
+    Value response = scriptService.executeSendMail(path, body);
+
+    Value fromValue = response.getMember("from");
+    MailAddress from = new MailAddress();
+    from.setName(fromValue.getMember("name").asString());
+    from.setEmail(fromValue.getMember("email").asString());
+
+    Value toValue = response.getMember("to");
+    MailAddress to = new MailAddress();
+    to.setName(toValue.getMember("name").asString());
+    to.setEmail(toValue.getMember("email").asString());
+
+    Message message = new Message();
+    message.setFrom(from);
+    message.setTo(to);
+    message.setSubject(response.getMember("subject").asString());
+
+    Value content = response.getMember("content");
+    assert content.isIterator();
+    for (int i = 0; i < content.getArraySize(); i++) {
+      Value element = content.getArrayElement(i);
+      message.getContent().add(element.asHostObject());
     }
-    System.out.println(script);
-    System.out.println(script.canExecute());
-    System.out.println(script.hasHashEntries());
-    System.out.println(script.hasIterator());
-    System.out.println(script.hasMembers());
 
-    Value executed = script.execute();
-    System.out.println(script);
-    System.out.println(script.canExecute());
-    System.out.println(script.hasHashEntries());
-    System.out.println(script.hasIterator());
-    System.out.println(script.hasMembers());
-
-    System.out.println(executed);
-    System.out.println(executed.canExecute());
-    System.out.println(executed.hasHashEntries());
-    System.out.println(executed.hasIterator());
-    System.out.println(executed.hasMembers());
-
-//    Context context = service.context();
-//    context.eval("js", "sendMail()");
+    sendGridService.send(message);
   }
 }

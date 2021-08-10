@@ -24,7 +24,17 @@ public class ScriptServiceImpl implements ScriptService {
 
   @Override
   public Value script(String path) {
-    return scripts.computeIfAbsent(path, scriptPath -> context.parse(repositoryService.getSource(scriptPath)));
+    return scripts.computeIfAbsent(path, this::eval);
+  }
+
+  @Override
+  public Value executeSendMail(String path, String data) {
+    Value script = script(path);
+    if (script == null) {
+      return null;
+    }
+    Value json = parseJSON(data);
+    return script.execute(json);
   }
 
   @Override
@@ -32,4 +42,13 @@ public class ScriptServiceImpl implements ScriptService {
     return context;
   }
 
+  @Override
+  public Value parseJSON(String data) {
+    context.getBindings("js").putMember("data", data);
+    return context.eval("js", "JSON.parse(data)");
+  }
+
+  private Value eval(String scriptPath) {
+    return context.eval(repositoryService.getSource(scriptPath));
+  }
 }

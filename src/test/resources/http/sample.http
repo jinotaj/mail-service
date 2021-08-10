@@ -3,10 +3,21 @@ GET http://localhost:8080/
 Accept: application/json
 
 ### /test
-GET http://localhost:8080/test
+POST http://localhost:8080/test
 Accept: application/json
+Content-Type: application/json
+
+{
+  "name": "Filip",
+  "surname": "Jirsák"
+}
 
 ### /module
-GET http://localhost:8080/module
+POST http://localhost:8080/module
 Accept: application/json
+Content-Type: application/json
 
+{
+  "name": "Filip",
+  "surname": "Jirsák"
+}
