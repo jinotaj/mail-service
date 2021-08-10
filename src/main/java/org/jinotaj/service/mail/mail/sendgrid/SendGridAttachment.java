@@ -14,6 +14,17 @@ class SendGridAttachment {
   private String disposition = "attachment";
   private String contentId;
 
+  public SendGridAttachment() {
+  }
+
+  public SendGridAttachment(String type, String content, String filename, String disposition, String contentId) {
+    this.type = type;
+    this.content = content;
+    this.filename = filename;
+    this.disposition = disposition;
+    this.contentId = contentId;
+  }
+
   public String getType() {
     return type;
   }
