@@ -20,7 +20,7 @@ micronaut {
 }
 
 dockerfile  {
-    baseImage = "oracle/graalvm-ce:21.2.0-java11"
+    baseImage = "ghcr.io/graalvm/graalvm-ce:21.2.0-java11"
     runCommand 'mkdir /home/app/data'
     volume '/home/app/data'
     volume '/home/app/application.yaml'
