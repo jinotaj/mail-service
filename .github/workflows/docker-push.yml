@@ -18,6 +18,6 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew --no-daemon dockerBuild
       - name: Docker Push :version
-        run: docker image push filipjirsak/mail-service:0.1.0
+        run: docker image push filipjirsak/mail-service:0.1.1
       - name: Docker Push :latest
         run: docker image push filipjirsak/mail-service:latest
