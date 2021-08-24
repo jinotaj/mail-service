@@ -49,6 +49,15 @@ public class MailController {
       message.getContent().add(element.asHostObject());
     }
 
+    Value attachments = response.getMember("attachments");
+    if (attachments != null) {
+      assert attachments.isIterator();
+      for (int i = 0; i < attachments.getArraySize(); i++) {
+        Value element = attachments.getArrayElement(i);
+        message.getAttachments().add(element.asHostObject());
+      }
+    }
+
     sendGridService.send(message);
   }
 }

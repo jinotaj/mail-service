@@ -8,8 +8,47 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "name": "Filip",
-  "surname": "Jirsák"
+  "recipientEmail": "filip@jirsak.org",
+  "recipients": {
+    "celni-sprava": {
+      "name": "string",
+      "phone": "string",
+      "email": "user@example.com",
+      "data_box": "string",
+      "address": {
+        "lines": [
+          "Vinohradská 2577/178",
+          "Vinohrady"
+        ],
+        "city": "Praha 3",
+        "zip_code": "13000"
+      }
+    }
+  },
+  "applicant": {
+    "name": "string",
+    "surname": "string",
+    "phone": "string",
+    "email": "user@example.com",
+    "personal_identification_number": "string",
+    "company_registration_number": "string",
+    "address": {
+      "lines": [
+        "Vinohradská 2577/178",
+        "Vinohrady"
+      ],
+      "city": "Praha 3",
+      "zip_code": "13000"
+    }
+  },
+  "reply_to": {
+    "reply_to": {
+      "data_box": "string"
+    }
+  },
+  "reason": {
+    "job_office": true
+  }
 }
 
 ### /module
@@ -21,3 +60,50 @@ Content-Type: application/json
   "name": "Filip",
   "surname": "Jirsák"
 }
+
+### PDF transform-service
+POST https://nedluzimstatu.cz/transformation-service/celni-sprava
+Content-Type: application/json
+Accept: application/pdf
+
+{
+  "applicant": {
+    "name": "string",
+    "surname": "string",
+    "phone": "string",
+    "email": "user@example.com",
+    "personal_identification_number": "string",
+    "company_registration_number": "string",
+    "address": {
+      "lines": [
+        "Vinohradská 2577/178",
+        "Vinohrady"
+      ],
+      "city": "Praha 3",
+      "zip_code": "13000"
+    }
+  },
+  "recipient": {
+    "name": "string",
+    "phone": "string",
+    "email": "user@example.com",
+    "data_box": "string",
+    "address": {
+      "lines": [
+        "Vinohradská 2577/178",
+        "Vinohrady"
+      ],
+      "city": "Praha 3",
+      "zip_code": "13000"
+    }
+  },
+  "reply_to": {
+    "reply_to": {
+      "data_box": "string"
+    }
+  },
+  "reason": {
+    "job_office": true
+  }
+}
+

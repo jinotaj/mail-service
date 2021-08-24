@@ -18,9 +18,11 @@ public class ScriptServiceFactory {
   private final Engine engine;
   private final Context.Builder contextBuilder;
   private final RepositoryService repositoryService;
+  private final AttachmentHttpClient attachmentHttpClient;
 
-  public ScriptServiceFactory(RepositoryService repositoryService) {
+  public ScriptServiceFactory(RepositoryService repositoryService, AttachmentHttpClient attachmentHttpClient) {
     this.repositoryService = repositoryService;
+    this.attachmentHttpClient = attachmentHttpClient;
     this.engine = Engine.create();
     this.contextBuilder = Context.newBuilder("js")
             .allowAllAccess(true)
@@ -33,6 +35,6 @@ public class ScriptServiceFactory {
     Value bindings = context.getBindings("js");
     bindings.putMember("File", repositoryService.getFileService());
     bindings.putMember("HTTP", "");
-    return new ScriptServiceImpl(context, repositoryService);
+    return new ScriptServiceImpl(context, repositoryService, attachmentHttpClient);
   }
 }

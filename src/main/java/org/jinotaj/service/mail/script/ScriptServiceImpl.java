@@ -15,11 +15,15 @@ import java.util.Map;
 public class ScriptServiceImpl implements ScriptService {
   private final Map<String, Value> scripts = new HashMap<>();
   private final Context context;
+
+  private final Value bindings;
   private final RepositoryService repositoryService;
 
-  public ScriptServiceImpl(Context context, RepositoryService repositoryService) {
+  public ScriptServiceImpl(Context context, RepositoryService repositoryService, AttachmentHttpClient attachmentHttpClient) {
     this.context = context;
     this.repositoryService = repositoryService;
+    this.bindings = context.getBindings("js");
+    this.bindings.putMember("HTTP", attachmentHttpClient);
   }
 
   @Override
@@ -44,8 +48,10 @@ public class ScriptServiceImpl implements ScriptService {
 
   @Override
   public Value parseJSON(String data) {
-    context.getBindings("js").putMember("data", data);
-    return context.eval("js", "JSON.parse(data)");
+    bindings.putMember("data", data);
+    Value json = context.eval("js", "JSON.parse(data)");
+    bindings.removeMember("data");
+    return json;
   }
 
   private Value eval(String scriptPath) {

@@ -2,6 +2,7 @@ package org.jinotaj.service.mail.mail;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Supplier;
 
 /**
  * @author Filip Jirsák
@@ -11,7 +12,7 @@ public class Message {
  private MailAddress to;
  private String subject;
  private List<Content> content = new LinkedList<>();
- private List<Attachment> attachments = new LinkedList<>();
+ private List<Supplier<Attachment>> attachments = new LinkedList<>();
 
  public MailAddress getFrom() {
   return from;
@@ -45,11 +46,11 @@ public class Message {
   this.content = content;
  }
 
- public List<Attachment> getAttachments() {
+ public List<Supplier<Attachment>> getAttachments() {
   return attachments;
  }
 
- public void setAttachments(List<Attachment> attachments) {
+ public void setAttachments(List<Supplier<Attachment>> attachments) {
   this.attachments = attachments;
  }
 }

@@ -7,6 +7,7 @@ import org.jinotaj.service.mail.mail.Message;
 
 import javax.inject.Singleton;
 import java.util.Base64;
+import java.util.function.Supplier;
 
 /**
  * @author Filip Jirsák
@@ -54,7 +55,9 @@ public class SendGridService {
     return new SendGridContent(content.getType(), content.getValue());
   }
 
-  private SendGridAttachment toSendGrid(Attachment attachment) {
+  private SendGridAttachment toSendGrid(Supplier<Attachment> attachmentSupplier) {
+    Attachment attachment = attachmentSupplier.get();
+
     SendGridAttachment sendGridAttachment = new SendGridAttachment();
     sendGridAttachment.setType(attachment.getType());
     sendGridAttachment.setFilename(attachment.getFilename());
