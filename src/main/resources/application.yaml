@@ -8,3 +8,4 @@ micronaut:
 mail-service:
   repositories:
     default:
+      directory: ./data

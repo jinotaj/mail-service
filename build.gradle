@@ -4,7 +4,7 @@ plugins {
 }
 
 version = "0.1.0"
-group = "org.jinotaj.service.mail"
+group = "org.jinotaj.service"
 
 repositories {
     mavenCentral()
@@ -17,6 +17,15 @@ micronaut {
         incremental(true)
         annotations("org.jinotaj.service.mail.*")
     }
+}
+
+dockerfile  {
+    runCommand 'mkdir /home/app/data'
+    volume '/home/app/data'
+}
+
+dockerBuild {
+    images = ["filipjirsak/mail-service:$project.version", "filipjirsak/mail-service:latest"]
 }
 
 dependencies {
