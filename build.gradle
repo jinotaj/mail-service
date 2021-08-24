@@ -23,6 +23,8 @@ dockerfile  {
     baseImage = "oracle/graalvm-ce:21.2.0-java11"
     runCommand 'mkdir /home/app/data'
     volume '/home/app/data'
+    volume '/home/app/application.yaml'
+    args("-Dmicronaut.config.files=/home/app/application.yaml")
 }
 
 dockerBuild {
