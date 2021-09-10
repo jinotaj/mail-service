@@ -24,6 +24,7 @@ public class MailController {
   }
 
   @Post("/{+path}")
+  @ExecuteOn(TaskExecutors.IO)
   public void index(@PathVariable String path, @Body String body) {
     Value response = scriptService.executeSendMail(path, body);
 
