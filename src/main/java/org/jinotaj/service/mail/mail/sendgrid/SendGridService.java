@@ -42,7 +42,7 @@ public class SendGridService {
             .forEach(attachment -> sendGridMessage.getAttchments().add(attachment));
 
     SendGridPersonalization personalization = new SendGridPersonalization();
-    personalization.getTo().add(toSendGrid(message.getFrom()));
+    personalization.getTo().add(toSendGrid(message.getTo()));
     sendGridMessage.getPersonalizations().add(personalization);
     return sendGridMessage;
   }
