@@ -19,7 +19,7 @@ import java.util.function.Supplier;
 @Singleton
 public class SendGridService {
   private final SendGridClient client;
-  private final Base64.Encoder base64Encoder = Base64.getMimeEncoder();
+  private final Base64.Encoder base64Encoder = Base64.getEncoder();
 
   public SendGridService(SendGridClient client) {
     this.client = client;

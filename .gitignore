@@ -6,6 +6,7 @@ target/
 out/
 config/
 sample/
+data/
 .idea
 *.iml
 *.ipr
