@@ -1,5 +1,7 @@
 package org.jinotaj.service.mail.repository;
 
+import io.micronaut.http.HttpStatus;
+import io.micronaut.http.exceptions.HttpStatusException;
 import io.micronaut.runtime.context.scope.Refreshable;
 import org.graalvm.polyglot.Source;
 import org.slf4j.Logger;
@@ -39,7 +41,11 @@ public class RepositoryService {
   }
 
   public Source getSource(String path) {
-    return sources.get(path);
+    Source source = sources.get(path);
+    if (source == null) {
+      throw new HttpStatusException(HttpStatus.NOT_FOUND, String.format("Script '%s.js' not found.", path));
+    }
+    return source;
   }
 
   public FileService getFileService() {
