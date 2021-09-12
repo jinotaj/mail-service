@@ -39,7 +39,7 @@ public class SendGridService {
     message.getAttachments()
             .stream()
             .map(this::toSendGrid)
-            .forEach(attachment -> sendGridMessage.getAttchments().add(attachment));
+            .forEach(attachment -> sendGridMessage.getAttachments().add(attachment));
 
     SendGridPersonalization personalization = new SendGridPersonalization();
     personalization.getTo().add(toSendGrid(message.getTo()));

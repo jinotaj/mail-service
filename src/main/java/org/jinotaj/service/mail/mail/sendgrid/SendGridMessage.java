@@ -15,7 +15,7 @@ class SendGridMessage {
   private SendGridAddress from;
   private String subject;
   private List<SendGridContent> content = new LinkedList<>();
-  private List<SendGridAttachment> attchments = new LinkedList<>();
+  private List<SendGridAttachment> attachments = new LinkedList<>();
   private String templateId;
   //  private String headers;
   //  private String categories;
@@ -55,12 +55,12 @@ class SendGridMessage {
     this.content = content;
   }
 
-  public List<SendGridAttachment> getAttchments() {
-    return attchments;
+  public List<SendGridAttachment> getAttachments() {
+    return attachments;
   }
 
-  public void setAttchments(List<SendGridAttachment> attchments) {
-    this.attchments = attchments;
+  public void setAttachments(List<SendGridAttachment> attachments) {
+    this.attachments = attachments;
   }
 
   public String getTemplateId() {
