@@ -1,5 +1,8 @@
 package org.jinotaj.service.mail.mail.sendgrid;
 
+import io.micronaut.http.HttpStatus;
+import io.micronaut.http.client.exceptions.HttpClientResponseException;
+import io.micronaut.http.exceptions.HttpStatusException;
 import org.jinotaj.service.mail.mail.Attachment;
 import org.jinotaj.service.mail.mail.Content;
 import org.jinotaj.service.mail.mail.MailAddress;
@@ -7,6 +10,7 @@ import org.jinotaj.service.mail.mail.Message;
 
 import javax.inject.Singleton;
 import java.util.Base64;
+import java.util.Optional;
 import java.util.function.Supplier;
 
 /**
@@ -23,7 +27,17 @@ public class SendGridService {
 
   public void send(Message message) {
     SendGridMessage sendGridMessage = toSendGrid(message);
-    client.sendMail(sendGridMessage);
+    try {
+      client.sendMail(sendGridMessage);
+    } catch (HttpClientResponseException e) {
+//      Optional<SendGridErrorResponse> response = e.getResponse().getBody(SendGridErrorResponse.class);
+      Optional<String> response = e.getResponse().getBody(String.class);
+      if (response.isPresent()) {
+        throw new HttpStatusException(e.getStatus(), response.get());
+      } else {
+        throw new HttpStatusException(e.getStatus(), e.getMessage());
+      }
+    }
   }
 
   private SendGridMessage toSendGrid(Message message) {
